@@ -7,12 +7,12 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
 
     steps:
       - name: Baixar arquivos
@@ -31,19 +31,36 @@ jobs:
 
       - name: Preparar Android SDK
         run: |
-          echo "ANDROID_HOME=$ANDROID_HOME"
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
-            "platforms;android-35" \
-            "build-tools;35.0.0"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Compilar APK
         run: gradle :app:assembleDebug --no-daemon
 
-      - name: Disponibilizar APK
+      - name: Preparar download direto
+        run: |
+          test -s app/build/outputs/apk/debug/app-debug.apk
+          mkdir -p dist
+          cp app/build/outputs/apk/debug/app-debug.apk dist/Analista-Cloud-ADM.apk
+          ls -lh dist/Analista-Cloud-ADM.apk
+
+      - name: Publicar APK sem ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view cloud-adm-latest >/dev/null 2>&1; then
+            gh release upload cloud-adm-latest dist/Analista-Cloud-ADM.apk --clobber
+          else
+            gh release create cloud-adm-latest dist/Analista-Cloud-ADM.apk \
+              --title "ANALISTA CLOUD ADM - APK" \
+              --notes "APK Android para instalação direta." \
+              --latest
+          fi
+
+      - name: Guardar copia
         uses: actions/upload-artifact@v4
         with:
           name: ANALISTA-CLOUD-ADM-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: dist/Analista-Cloud-ADM.apk
           if-no-files-found: error
