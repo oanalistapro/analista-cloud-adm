@@ -1,0 +1,102 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081322"><title>ANALISTA CLOUD ADM | Controle</title>
+<style>
+:root{color-scheme:dark;--bg:#060b15;--panel:#101b2d;--edge:#253a56;--muted:#9eb0ca;--a:#36caff;--b:#ff8a2b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 0%,#163456 0%,transparent 40%),radial-gradient(ellipse at 90% 0%,#4a2416 0%,transparent 32%),#060b15;color:#edf6ff;font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer;border:1px solid #ffffff1c;border-radius:13px;background:linear-gradient(115deg,#129ddf,#2264df);color:white;padding:12px 17px;font-weight:750;min-height:44px;box-shadow:0 6px 18px #0002}
+button:disabled{opacity:.5;cursor:wait}
+button:active{transform:scale(.985)}
+.secondary{background:#20324b}.danger{background:#92374c}
+input{width:100%;padding:13px;border:1px solid #36506e;border-radius:12px;background:#081527;color:#fff;margin:7px 0;min-height:46px;outline:none}
+input:focus{border-color:#37bfff;box-shadow:0 0 0 3px #31bbff20}
+.shell{max-width:1160px;margin:auto;padding:20px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;padding:12px 0 25px}
+.identity{display:flex;align-items:center;gap:14px}
+.logo{width:61px;height:61px;flex-shrink:0;display:grid;place-items:center;border-radius:19px;background:linear-gradient(145deg,#143a64,#101827 65%,#62361e);border:1px solid #4384a7;box-shadow:0 8px 26px #0008,inset 0 1px #ffffff2a}
+.logo svg{width:43px;height:43px}
+.brand{font-size:23px;font-weight:900;letter-spacing:.015em;line-height:1.15}
+.brand b{color:#ff9a44}
+.sub{color:var(--muted);font-size:13px;line-height:1.5}
+.panel{border:1px solid var(--edge);background:linear-gradient(150deg,#14233a,#0c1727);border-radius:20px;padding:23px;margin-bottom:18px;box-shadow:0 12px 34px #0004}
+.hidden{display:none!important}
+#login{max-width:460px;margin:25px auto 30px;padding:28px}
+#login h2{font-size:25px}
+#login #enter{width:100%;margin-top:12px}
+.tabs{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0 20px}
+.tabs button{background:#20354e}
+.tabs button.on{background:linear-gradient(120deg,#087fbc,#1766d9);border-color:#45bfff}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.metric{padding:19px;border-radius:16px;background:#09192c;border:1px solid #2b4765}
+.metric strong{font-size:27px;display:block;margin:7px 0;color:#fff}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row>*{flex:1}.row button{flex:0 0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.file{border:1px solid #2d4b6a;background:#09182a;border-radius:15px;padding:11px;min-width:0}
+.file img{width:100%;height:145px;object-fit:contain;background:#06101d;border-radius:10px}
+.file p{overflow-wrap:anywhere;color:#d5e9ff}.file a{color:#71d8ff;overflow-wrap:anywhere}
+.file button{margin:5px 5px 0 0;padding:9px;font-size:13px}
+.account{padding:15px;background:#0a192d;border:1px solid #2b4968;border-radius:13px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.account code{overflow-wrap:anywhere;color:#b9d7ee}
+.pill{background:#173d59;color:#9de4ff;border-radius:30px;padding:8px 12px;font-size:12px}
+.hint{color:var(--muted);line-height:1.5}
+#message{white-space:pre-wrap;overflow-wrap:anywhere;color:#ffcc8d;padding:8px 2px}
+#message.ok{color:#8cf5c6}
+h1,h2,h3{margin-top:0}h2{font-size:21px}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;color:#ffbb81;font-size:11px;font-weight:800;letter-spacing:.12em;margin-bottom:10px}
+.hero-tag:before{content:"";width:7px;height:7px;border-radius:50%;background:#ff8a2b;box-shadow:0 0 12px #ff8a2b}
+@media(max-width:650px){
+.shell{padding:12px}.top{align-items:flex-start;padding:10px 0 20px}
+.logo{width:52px;height:52px;border-radius:16px}.logo svg{width:36px;height:36px}
+.brand{font-size:19px}.identity{gap:10px}
+.panel{padding:17px;border-radius:17px}.metrics{grid-template-columns:1fr}
+#login{margin:12px auto 22px;padding:22px}
+.row{align-items:stretch}.row button{flex:1}
+.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.tabs button{padding:11px 8px;font-size:13px}
+#userLabel{max-width:calc(100vw - 24px);overflow-wrap:anywhere}
+}
+</style></head><body><main class="shell"><header class="top"><div class="identity"><div class="logo" aria-label="Logo Analista Cloud ADM"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M32 4 54 12v17c0 15-9 24-22 31C19 53 10 44 10 29V12L32 4Z" fill="#0D243E" stroke="#42C9FF" stroke-width="3"/><path d="M19 42 30 17h5l11 25h-7l-2.1-5H27l-2 5h-6Zm10-11h5l-2.5-7-2.5 7Z" fill="#FF922F"/><path d="M17 47h30" stroke="#39C8FF" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><div class="brand">ANALISTA <b>CLOUD ADM</b></div><div class="sub">Painel de controle • Administração segura</div></div></div><div class="row" style="flex:0 1 auto"><div id="userLabel" class="pill">Não conectado</div><button id="logoutTop" class="secondary hidden" type="button">Sair da conta</button></div></header>
+<section class="panel" id="login"><div class="hero-tag">ACESSO RESTRITO</div><h2>Bem-vindo ao Cloud ADM</h2><p class="hint">Use a mesma conta do ANALISTA PRO.</p><input id="email" type="email" placeholder="E-mail" autocomplete="email"><input id="password" type="password" placeholder="Senha" autocomplete="current-password"><button id="enter">Entrar</button></section>
+<section id="app" class="hidden"><div class="tabs"><button id="tabMy" class="hidden">🖼️ Minhas imagens</button><button id="tabAdmin" class="hidden">🛡️ Central ADM</button><button id="logout" class="secondary">Sair</button></div>
+<section id="myPage" class="hidden"><div class="metrics"><div class="metric"><span class="sub">Imagens utilizadas</span><strong id="count">—</strong><span class="sub">Limite: 100</span></div><div class="metric"><span class="sub">Armazenamento</span><strong id="storage">—</strong><span class="sub">Limite: 20 MB por conta</span></div><div class="metric"><span class="sub">Por imagem</span><strong>300 KB</strong><span class="sub">Compressão automática</span></div></div><section class="panel" style="margin-top:18px"><h2>Enviar imagem</h2><p class="hint">Fotos enviadas geram links públicos para usar em outros aplicativos.</p><input id="image" type="file" accept="image/png,image/jpeg,image/webp"><div class="row"><button id="upload">Comprimir e enviar</button><button id="refresh" class="secondary">Atualizar lista</button></div></section><section class="panel"><h2>Minhas imagens</h2><div id="files" class="grid"></div></section></section>
+<section id="adminPage" class="hidden"><div class="panel"><h2>🛡️ Central de administração</h2><p class="hint">Visualize contas que já enviaram imagens e consulte seus arquivos. O acesso é validado no Worker pelo UID de administrador, não apenas pela interface.</p><div class="metrics"><div class="metric"><span class="sub">Contas com imagens</span><strong id="accountsCount">—</strong></div><div class="metric"><span class="sub">Total de imagens</span><strong id="allCount">—</strong></div><div class="metric"><span class="sub">Dados das imagens</span><strong id="allStorage">—</strong></div></div><div class="row" style="margin-top:18px"><input id="search" placeholder="Pesquisar pelo UID"><button id="refreshAdmin" class="secondary">Atualizar</button></div><div id="accounts"></div></div><div id="accountDetail" class="panel hidden"><div class="row"><h2 id="accountTitle">Imagens da conta</h2><button id="closeDetail" class="secondary">Fechar</button></div><div id="adminFiles" class="grid"></div></div><div class="panel"><h3>Planos comerciais — reservado para ativação futura</h3><p class="hint">A área de comercialização fica reservada, sem cobrar ou liberar planos automaticamente. Para ativar no futuro será necessário implementar pagamentos, contratos, limites por plano e segurança de acesso para outros aplicativos.</p></div></section></section><p id="message" role="status"></p></main>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script>
+const firebaseConfig={apiKey:"AIzaSyAoHlh4ZyyCwZXCz2yzYYjblnqzjR_yCPI",authDomain:"analista-ff.firebaseapp.com",projectId:"analista-ff",appId:"1:1057472479988:web:39a86ce56880d3641554a1"};
+if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth(),$=id=>document.getElementById(id),BASE="https://divine-frog-f5beanalista-cloud.junhodorval.workers.dev";
+const message=(text,ok=false)=>{$("message").textContent=text;$("message").className=ok?"ok":""};
+const mb=bytes=>(Number(bytes||0)/1048576).toFixed(2)+" MB";
+let accounts=[];
+async function api(path,options={}){const user=auth.currentUser;if(!user)throw Error("Faça login.");const token=await user.getIdToken();const response=await fetch(BASE+path,{...options,headers:{Authorization:"Bearer "+token,...(options.headers||{})}});let data;try{data=await response.json()}catch{throw Error("Resposta inválida do Worker.")}if(!response.ok)throw Error(data.error||"Erro "+response.status);return data}
+$("enter").onclick=async()=>{try{await auth.signInWithEmailAndPassword($("email").value.trim(),$("password").value);$("password").value="";message("Login realizado.",true)}catch(e){message("Erro de login: "+e.message)}};
+async function sairDaConta(){
+  try{
+    $("logoutTop").disabled=true;
+    await auth.signOut();
+    $("password").value="";
+    $("email").value="";
+    message("Você saiu da conta. Entre com a conta ADM.",true);
+  }catch(e){message("Erro ao sair: "+e.message)}
+  finally{$("logoutTop").disabled=false}
+}
+$("logout").onclick=sairDaConta;
+$("logoutTop").onclick=sairDaConta;
+auth.onAuthStateChanged(async u=>{$("login").classList.toggle("hidden",!!u);$("app").classList.toggle("hidden",!u);$("userLabel").textContent=u?.email||"Não conectado";$("logoutTop").classList.toggle("hidden",!u);$("tabAdmin").classList.add("hidden");if(u){try{const me=await api("/api/me");if(auth.currentUser?.uid!==u.uid)return;if(!me.admin){$("app").classList.remove("hidden");$("tabMy").classList.remove("hidden");show("my");message("Conta autenticada, mas sem permissão ADM no servidor.\\nE-mail: "+(u.email||"não informado")+"\\nUID: "+u.uid+"\\nCompare com a conta que funciona no Chrome.");await list();return;}$("tabAdmin").classList.remove("hidden");show("admin");await adminList()}catch(e){if(auth.currentUser?.uid===u.uid)message(e.message)}}else{show("my");}});
+function show(which){$("myPage").classList.toggle("hidden",which!=="my");$("adminPage").classList.toggle("hidden",which!=="admin");$("tabMy").classList.toggle("on",which==="my");$("tabAdmin").classList.toggle("on",which==="admin")}
+$("tabMy").onclick=()=>show("my");
+$("tabAdmin").onclick=async()=>{show("admin");await adminList()};
+function fileCard(f,canDelete){const box=document.createElement("div");box.className="file";const img=document.createElement("img");img.src=f.url;img.alt=f.filename||"Imagem";img.loading="lazy";const name=document.createElement("p");name.textContent=f.filename||"Imagem";const a=document.createElement("a");a.href=f.url;a.target="_blank";a.rel="noopener";a.textContent="Abrir imagem";const copy=document.createElement("button");copy.textContent="Copiar link";copy.onclick=async()=>{try{await navigator.clipboard.writeText(f.url);message("Link copiado!",true)}catch{message("Link: "+f.url)}};box.append(img,name,a,document.createElement("br"),copy);if(canDelete){const del=document.createElement("button");del.className="danger";del.textContent="Excluir";del.onclick=async()=>{if(!confirm("Excluir imagem? Links antigos deixarão de funcionar."))return;try{await api("/api/files?id="+encodeURIComponent(f.id),{method:"DELETE"});await list();message("Imagem excluída.",true)}catch(e){message(e.message)}};box.append(del)}return box}
+async function list(){try{const {files}=await api("/api/files");$("count").textContent=files.length+" / 100";$("storage").textContent=mb(files.reduce((sum,f)=>sum+Number(f.bytes||0),0));$("files").replaceChildren();if(!files.length)$("files").textContent="Nenhuma imagem enviada.";for(const f of files)$("files").append(fileCard(f,true))}catch(e){message(e.message)}}
+$("refresh").onclick=list;
+async function compress(file){if(!["image/jpeg","image/png","image/webp"].includes(file.type))throw Error("Escolha JPG, PNG ou WebP.");const url=URL.createObjectURL(file);try{const img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(Error("Imagem inválida."));img.src=url});for(const side of [1400,1100,850,650,480,320]){const ratio=Math.min(1,side/Math.max(img.naturalWidth,img.naturalHeight));const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(img.naturalWidth*ratio));canvas.height=Math.max(1,Math.round(img.naturalHeight*ratio));canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);for(const quality of [.85,.72,.6,.48,.35,.24]){const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/webp",quality));if(blob&&blob.type==="image/webp"&&blob.size<=300*1024){const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=()=>reject(Error("Erro ao ler foto"));reader.readAsDataURL(blob)});return {name:file.name,mime:"image/webp",data}}}}throw Error("Não foi possível comprimir para 300 KB.")}finally{URL.revokeObjectURL(url)}}
+$("upload").onclick=async()=>{const file=$("image").files[0];if(!file)return message("Escolha uma imagem.");$("upload").disabled=true;try{message("Comprimindo e enviando...");const body=await compress(file);const result=await api("/api/upload",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});$("image").value="";await list();message("Imagem enviada! "+result.url,true)}catch(e){message(e.message)}finally{$("upload").disabled=false}};
+async function adminList(){try{const r=await api("/api/admin/accounts");accounts=r.accounts||[];$("accountsCount").textContent=accounts.length;$("allCount").textContent=accounts.reduce((sum,a)=>sum+Number(a.count||0),0);$("allStorage").textContent=mb(accounts.reduce((sum,a)=>sum+Number(a.total||0),0));renderAccounts();message("")}catch(e){message("ADM: "+e.message)}}
+function renderAccounts(){const query=$("search").value.trim().toLowerCase();$("accounts").replaceChildren();const found=accounts.filter(a=>a.owner_uid.toLowerCase().includes(query));if(!found.length)$("accounts").textContent="Nenhuma conta com imagens encontrada.";for(const a of found){const row=document.createElement("div");row.className="account";const info=document.createElement("div");const uid=document.createElement("code");uid.textContent=a.owner_uid;const meta=document.createElement("div");meta.className="sub";meta.textContent=a.count+" imagens • "+mb(a.total)+" • Último envio: "+(a.last_upload||"—");info.append(uid,meta);const view=document.createElement("button");view.textContent="Ver imagens";view.onclick=()=>openAccount(a.owner_uid);row.append(info,view);$("accounts").append(row)}}
+async function openAccount(uid){try{const r=await api("/api/admin/files?uid="+encodeURIComponent(uid));$("accountDetail").classList.remove("hidden");$("accountTitle").textContent="Imagens da conta: "+uid;$("adminFiles").replaceChildren();if(!r.files.length)$("adminFiles").textContent="Nenhuma imagem.";for(const f of r.files)$("adminFiles").append(fileCard(f,false));$("accountDetail").scrollIntoView({behavior:"smooth"})}catch(e){message(e.message)}}
+$("closeDetail").onclick=()=>$("accountDetail").classList.add("hidden");
+$("search").oninput=renderAccounts;
+$("refreshAdmin").onclick=adminList;
+</script></body></html>
