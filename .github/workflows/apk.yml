@@ -1,0 +1,211 @@
+
+name: Gerar APK ANALISTA CLOUD ADM
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar arquivos
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurar Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+
+      - name: Verificar Android SDK
+        shell: bash
+        run: |
+          set -e
+          echo "ANDROID_HOME=$ANDROID_HOME"
+
+          test -d "$ANDROID_HOME"
+
+          SDK="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$SDK"
+
+          "$SDK" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Criar aplicativo Android
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p app/src/main/java/com/analistapro/cloudadm
+
+          cat > settings.gradle <<'EOF'
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+
+          rootProject.name = 'AnalistaCloudADM'
+          include ':app'
+          EOF
+
+          cat > build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application' version '8.7.3' apply false
+          }
+          EOF
+
+          cat > app/build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application'
+          }
+
+          android {
+              namespace 'com.analistapro.cloudadm'
+              compileSdk 35
+
+              defaultConfig {
+                  applicationId 'com.analistapro.cloudadm'
+                  minSdk 24
+                  targetSdk 35
+                  versionCode 2
+                  versionName '2.0'
+              }
+          }
+          EOF
+
+          cat > app/src/main/AndroidManifest.xml <<'EOF'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+              <uses-permission
+                  android:name="android.permission.INTERNET"/>
+
+              <application
+                  android:label="ANALISTA CLOUD ADM"
+                  android:theme="@android:style/Theme.Material.Light.NoActionBar"
+                  android:allowBackup="false"
+                  android:usesCleartextTraffic="false">
+
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true">
+
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN"/>
+                          <category android:name="android.intent.category.LAUNCHER"/>
+                      </intent-filter>
+
+                  </activity>
+              </application>
+          </manifest>
+          EOF
+
+          cat > app/src/main/java/com/analistapro/cloudadm/MainActivity.java <<'EOF'
+          package com.analistapro.cloudadm;
+
+          import android.app.Activity;
+          import android.os.Bundle;
+          import android.content.Intent;
+          import android.net.Uri;
+          import android.widget.Toast;
+          import android.content.ActivityNotFoundException;
+
+          public class MainActivity extends Activity {
+
+              private static final String URL =
+                  "https://oanalistapro.github.io/analista-cloud-adm/";
+
+              @Override
+              protected void onCreate(Bundle state) {
+                  super.onCreate(state);
+
+                  try {
+                      Intent intent = new Intent(
+                          Intent.ACTION_VIEW,
+                          Uri.parse(URL)
+                      );
+
+                      startActivity(intent);
+                  } catch (ActivityNotFoundException e) {
+                      Toast.makeText(
+                          this,
+                          "Instale um navegador para abrir o ADM.",
+                          Toast.LENGTH_LONG
+                      ).show();
+                  }
+
+                  finish();
+              }
+          }
+          EOF
+
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+      - name: Compilar APK
+        shell: bash
+        run: |
+          set -e
+          gradle :app:assembleDebug --no-daemon
+
+      - name: Validar APK gerado
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p dist
+
+          cp app/build/outputs/apk/debug/app-debug.apk \
+            dist/ANALISTA-CLOUD-ADM.apk
+
+          test -s dist/ANALISTA-CLOUD-ADM.apk
+
+          FILESIZE=$(stat -c%s dist/ANALISTA-CLOUD-ADM.apk)
+
+          echo "Tamanho do APK: $FILESIZE bytes"
+
+          if [ "$FILESIZE" -lt 10000 ]; then
+            echo "ERRO: APK muito pequeno."
+            exit 1
+          fi
+
+          unzip -t dist/ANALISTA-CLOUD-ADM.apk
+
+          ls -lh dist/
+
+      - name: Publicar APK direto sem ZIP
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+
+          TAG="analista-cloud-adm-apk"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" \
+              dist/ANALISTA-CLOUD-ADM.apk \
+              --clobber
+          else
+            gh release create "$TAG" \
+              dist/ANALISTA-CLOUD-ADM.apk \
+              --title "ANALISTA CLOUD ADM - Android" \
+              --notes "APK instalavel do ANALISTA CLOUD ADM."
+          fi
