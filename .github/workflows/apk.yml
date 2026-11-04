@@ -30,14 +30,16 @@ jobs:
         shell: bash
         run: |
           set -e
-          echo "ANDROID_HOME=$ANDROID_HOME"
 
+          echo "ANDROID_HOME=$ANDROID_HOME"
           test -d "$ANDROID_HOME"
 
           SDK="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
           test -x "$SDK"
 
-          "$SDK" "platforms;android-35" "build-tools;35.0.0"
+          "$SDK" \
+            "platforms;android-35" \
+            "build-tools;35.0.0"
 
       - name: Criar aplicativo Android
         shell: bash
@@ -177,18 +179,19 @@ jobs:
 
           test -s dist/ANALISTA-CLOUD-ADM.apk
 
-          FILESIZE=$(stat -c%s dist/ANALISTA-CLOUD-ADM.apk)
-
-          echo "Tamanho do APK: $FILESIZE bytes"
-
-          if [ "$FILESIZE" -lt 10000 ]; then
-            echo "ERRO: APK muito pequeno."
-            exit 1
-          fi
-
+          echo "Verificando estrutura..."
           unzip -t dist/ANALISTA-CLOUD-ADM.apk
 
-          ls -lh dist/
+          echo "Verificando manifesto Android..."
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" \
+            dump badging dist/ANALISTA-CLOUD-ADM.apk
+
+          echo "Verificando assinatura..."
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" \
+            verify --verbose dist/ANALISTA-CLOUD-ADM.apk
+
+          echo "APK validado:"
+          ls -lh dist/ANALISTA-CLOUD-ADM.apk
 
       - name: Publicar APK direto sem ZIP
         shell: bash
